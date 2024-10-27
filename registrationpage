@@ -1,66 +1,58 @@
-///////////////////////////////////////Registration.js/////////////////////////////////
+///////////////////////////////////////RegistrationForm.js/////////////////////////////////
 import React, { useState } from 'react';
+import './RegistrationForm.css'; // Import the CSS file
 
-const Registration = () => {
+
+const RegistrationForm = () => {
   const [formData, setFormData] = useState({
     username: '',
     email: '',
     password: ''
   });
-
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
+    setFormData({
+      ...formData,
       [name]: value
-    }));
+    });
   };
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle form submission (e.g., send data to the server)
-    console.log('Form submitted:', formData);
+    console.log('Form Submitted:', formData);
   };
-
   return (
-    <div>
-      <h2>Registration Page</h2>
+    <div className="container">
       <form onSubmit={handleSubmit}>
+        <h1>Registration Form</h1>
         <div>
-          <label>
-            Username:
-            <input
-              type="text"
-              name="username"
-              value={formData.username}
-              onChange={handleChange}
-              required
-            />
-          </label>
+          <label htmlFor="username">Username:</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            value={formData.username}
+            onChange={handleChange}
+          />
         </div>
         <div>
-          <label>
-            Email:
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
-          </label>
+          <label htmlFor="email">Email:</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+          />
         </div>
         <div>
-          <label>
-            Password:
-            <input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-            />
-          </label>
+          <label htmlFor="password">Password:</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+          />
         </div>
         <button type="submit">Register</button>
       </form>
@@ -68,18 +60,71 @@ const Registration = () => {
   );
 };
 
-export default Registration;
+
+export default RegistrationForm;
+//////////////////////////////////////////////RegistrationForm.css/////////////////////////////////
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; 
+    background-color: #f4f4f4;
+  }
+  
+ 
+  form {
+    background: #fff; 
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+    width: 100%;
+    max-width: 400px; 
+  }
+  
+ 
+  div {
+    margin-bottom: 15px; 
+  }
+  
+  label {
+    display: block; 
+    margin-bottom: 5px;
+  }
+  
+  input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff; 
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  button:hover {
+    background-color: #0056b3; 
+  }
+
 ///////////////////////////////////////////////App.js/////////////////////////////////
 import React from 'react';
-import Registration from './Registration';
+import RegistrationForm from './RegistrationForm';
+
 
 function App() {
   return (
-    <div className="App">
-      <h1>Welcome to Registration</h1>
-      <Registration />
+    <div className='App'>
+      <RegistrationForm />
     </div>
   );
 }
+
 
 export default App;
