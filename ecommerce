@@ -1,0 +1,204 @@
+//////////////////////////////////////////////////Home.js//////////////////////////////////////////////////
+
+import React from 'react';
+import { Link } from 'react-router-dom';
+
+// Sample book data
+const books = [
+  { id: 1, title: 'Book 1', price: 10, description: 'Description for Book 1', image: 'https://via.placeholder.com/150' },
+  { id: 2, title: 'Book 2', price: 15, description: 'Description for Book 2', image: 'https://via.placeholder.com/150' },
+  { id: 3, title: 'Book 3', price: 20, description: 'Description for Book 3', image: 'https://via.placeholder.com/150' },
+];
+
+const Home = () => {
+  return (
+    <div>
+      <h1>Bookstore</h1>
+      <h2>Available Books</h2>
+      <ul>
+        {books.map((book) => (
+          <li key={book.id}>
+            <Link to={`/product/${book.id}`}>
+              <img src={book.image} alt={book.title} style={{ width: '100px', height: '150px' }} />
+              <h3>{book.title}</h3>
+              <p>Price: ${book.price}</p>
+              <p>{book.description}</p>
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+export default Home;
+
+
+
+
+
+
+
+/////////////////////////////////////////////ProductPage.js/////////////////////////////////////////////////
+
+import React, { useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+
+const books = [
+  { id: 1, title: 'Book 1', price: 10, description: 'Description for Book 1', image: 'https://via.placeholder.com/150' },
+  { id: 2, title: 'Book 2', price: 15, description: 'Description for Book 2', image: 'https://via.placeholder.com/150' },
+  { id: 3, title: 'Book 3', price: 20, description: 'Description for Book 3', image: 'https://via.placeholder.com/150' },
+];
+
+const ProductPage = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const book = books.find((b) => b.id === parseInt(id));
+  const [quantity, setQuantity] = useState(1);
+
+  const handleAddToCart = () => {
+    // This is where you would handle adding the item to the cart
+    console.log(`Added ${quantity} of ${book.title} to cart.`);
+    navigate('/cart');
+  };
+
+  if (!book) {
+    return <h2>Book not found</h2>;
+  }
+
+  return (
+    <div>
+      <h1>{book.title}</h1>
+      <img src={book.image} alt={book.title} style={{ width: '150px', height: '200px' }} />
+      <p>Price: ${book.price}</p>
+      <p>{book.description}</p>
+      <input
+        type="number"
+        value={quantity}
+        onChange={(e) => setQuantity(e.target.value)}
+        min="1"
+      />
+      <button onClick={handleAddToCart}>Add to Cart</button>
+    </div>
+  );
+};
+
+export default ProductPage;
+
+
+
+
+
+
+
+//////////////////////////////////////////////Cart.js//////////////////////////////////////////////////
+
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+
+const initialCart = [
+  { id: 1, title: 'Book 1', price: 10, quantity: 1 },
+  { id: 2, title: 'Book 2', price: 15, quantity: 2 },
+];
+
+const Cart = () => {
+  const [cart, setCart] = useState(initialCart);
+
+  const handleQuantityChange = (id, quantity) => {
+    setCart((prevCart) =>
+      prevCart.map((item) =>
+        item.id === id ? { ...item, quantity: Number(quantity) } : item
+      )
+    );
+  };
+
+  const handleRemoveItem = (id) => {
+    setCart((prevCart) => prevCart.filter((item) => item.id !== id));
+  };
+
+  const totalPrice = cart.reduce((total, item) => total + item.price * item.quantity, 0);
+
+  return (
+    <div>
+      <h1>Shopping Cart</h1>
+      <ul>
+        {cart.map((item) => (
+          <li key={item.id}>
+            <h3>{item.title}</h3>
+            <p>Price: ${item.price}</p>
+            <p>Quantity: 
+              <input
+                type="number"
+                value={item.quantity}
+                onChange={(e) => handleQuantityChange(item.id, e.target.value)}
+                min="1"
+              />
+            </p>
+            <button onClick={() => handleRemoveItem(item.id)}>Remove</button>
+          </li>
+        ))}
+      </ul>
+      <h2>Total Price: ${totalPrice}</h2>
+      <Link to="/checkout">Proceed to Checkout</Link>
+    </div>
+  );
+};
+
+export default Cart;
+
+
+
+
+
+
+
+
+
+/////////////////////////////////////////////////////////Checkout.js////////////////////////////////////////
+
+import React from 'react';
+
+const Checkout = () => {
+  const handlePayment = () => {
+    // Handle payment logic here
+    alert("Payment successful!");
+  };
+
+  return (
+    <div>
+      <h1>Checkout</h1>
+      <button onClick={handlePayment}>Pay Now</button>
+    </div>
+  );
+};
+
+export default Checkout;
+
+
+
+
+
+//////////////////////////////////////////////////////App.js/////////////////////////////////////////////////////////////
+
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Home from './Home';
+import ProductPage from './ProductPage';
+import Cart from './Cart';
+import Checkout from './Checkout';
+
+const App = () => {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/product/:id" element={<ProductPage />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/checkout" element={<Checkout />} />
+      </Routes>
+    </Router>
+  );
+};
+
+export default App;
+
