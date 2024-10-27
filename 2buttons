@@ -1,0 +1,50 @@
+/////////////////////////////////////////////EventHandlerDemo.js////////////////////////////
+import React, { Component } from 'react';
+
+class EventHandlerDemo extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      message: '',
+      dateTime: ''
+    };
+  }
+
+  // Traditional function as event handler
+  displayDateTime() {
+    const now = new Date();
+    this.setState({ dateTime: now.toLocaleString(), message: '' });
+  }
+
+  // Arrow function as event handler
+  displayGoodbye = () => {
+    this.setState({ message: 'Goodbye', dateTime: '' });
+  };
+
+  render() {
+    return (
+      <div>
+        <h1>Event Handler Demo</h1>
+        <button onClick={this.displayDateTime.bind(this)}>Show Date & Time</button>
+        <button onClick={this.displayGoodbye}>Show Goodbye</button>
+        <p>{this.dateTime && `Current Date and Time: ${this.state.dateTime}`}</p>
+        <p>{this.state.message}</p>
+      </div>
+    );
+  }
+}
+
+export default EventHandlerDemo;
+/////////////////////////////////////////////////////////App.js////////////////////////////////
+import React from 'react';
+import EventHandlerDemo from './EventHandlerDemo';
+
+function App() {
+  return (
+    <div className="App">
+      <EventHandlerDemo />
+    </div>
+  );
+}
+
+export default App;
