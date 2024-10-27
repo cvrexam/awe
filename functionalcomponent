@@ -1,0 +1,26 @@
+///////////////////////DisplayValue.js////////////////////
+import React from 'react';
+
+function DisplayValue(props) {
+  return (
+    <div>
+      <p>{props.value}</p>
+    </div>
+  );
+}
+
+export default DisplayValue;
+/////////////////////////App.js////////////////////////////
+import React from 'react';
+import DisplayValue from './DisplayValue';
+
+function App() {
+  return (
+    <div className="App">
+      <h1>Displaying an Arbitrary Value</h1>
+      <DisplayValue value="Hello, World!" />
+    </div>
+  );
+}
+
+export default App;
