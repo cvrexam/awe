@@ -1,0 +1,28 @@
+///////////////////////DisplayValue.js////////////////////
+import React, { Component } from 'react';
+
+class DisplayValue extends Component {
+  render() {
+    return (
+      <div>
+        <p>{this.props.value}</p>
+      </div>
+    );
+  }
+}
+
+export default DisplayValue;
+//////////////////////////App.js/////////////
+import React from 'react';
+import DisplayValue from './DisplayValue';
+
+function App() {
+  return (
+    <div className="App">
+      <h1>Displaying an Arbitrary Value</h1>
+      <DisplayValue value="Hello, World!" />
+    </div>
+  );
+}
+
+export default App;
