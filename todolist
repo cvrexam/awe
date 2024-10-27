@@ -1,0 +1,81 @@
+//////////////////////////////TodoList.js//////////////////////////
+import React from 'react';
+
+function TodoList({ todos, toggleComplete, deleteTodo }) {
+  return (
+    <ul>
+      {todos.map(todo => (
+        <li key={todo.id} style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}>
+          {todo.task}
+          <button onClick={() => toggleComplete(todo.id)}>
+            {todo.completed ? 'Undo' : 'Complete'}
+          </button>
+          <button onClick={() => deleteTodo(todo.id)}>Delete</button>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+export default TodoList;
+////////////////////////////////////////TodoForm.js///////////////////////
+import React, { useState } from 'react';
+
+function TodoForm({ addTodo }) {
+  const [task, setTask] = useState('');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (task.trim()) {
+      addTodo(task);
+      setTask('');
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input
+        type="text"
+        value={task}
+        onChange={(e) => setTask(e.target.value)}
+        placeholder="Add new task"
+      />
+      <button type="submit">Add Task</button>
+    </form>
+  );
+}
+
+export default TodoForm;
+/////////////////////////////////////////App.js///////////////////////////////
+import React, { useState } from 'react';
+import TodoForm from './TodoForm';
+import TodoList from './TodoList';
+
+function App() {
+  const [todos, setTodos] = useState([]);
+
+  const addTodo = (task) => {
+    const newTodo = { id: Date.now(), task, completed: false };
+    setTodos([...todos, newTodo]);
+  };
+
+  const toggleComplete = (id) => {
+    setTodos(todos.map(todo => (
+      todo.id === id ? { ...todo, completed: !todo.completed } : todo
+    )));
+  };
+
+  const deleteTodo = (id) => {
+    setTodos(todos.filter(todo => todo.id !== id));
+  };
+
+  return (
+    <div className="App">
+      <h1>TODO App</h1>
+      <TodoForm addTodo={addTodo} />
+      <TodoList todos={todos} toggleComplete={toggleComplete} deleteTodo={deleteTodo} />
+    </div>
+  );
+}
+
+export default App;
